@@ -1,0 +1,50 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Babushka Test
+      id: babushka-test
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Babushka Test
+        setup-command: ''
+        command: mvn test -Dtest=MatryoshkaTest#testHowManyWearingBabushkas
+        timeout: 1
+        max-score: 1
+    - name: Red Head Test
+      id: red-head-test
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Red Head Test
+        setup-command: ''
+        command: mvn test -Dtest=MatryoshkaTest#testRedHeadCount
+        timeout: 1
+        max-score: 1
+    - name: Last Name Test
+      id: last-name-test
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Last Name Test
+        setup-command: ''
+        command: mvn test -Dtest=MatryoshkaTest#testLastName2
+        timeout: 1
+        max-score: 1
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        BABUSHKA-TEST_RESULTS: "${{steps.babushka-test.outputs.result}}"
+        RED-HEAD-TEST_RESULTS: "${{steps.red-head-test.outputs.result}}"
+        LAST-NAME-TEST_RESULTS: "${{steps.last-name-test.outputs.result}}"
+      with:
+        runners: babushka-test,red-head-test,last-name-test
