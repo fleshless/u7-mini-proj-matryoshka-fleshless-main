@@ -6,7 +6,6 @@ public class Matryoshka {
 	String name;
 	java.awt.Color hairColor;
 	boolean hasBabuskha;
-	//helloooo sdfdfs
 
 
 	/**
