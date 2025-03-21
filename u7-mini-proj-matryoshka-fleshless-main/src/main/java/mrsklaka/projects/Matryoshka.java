@@ -5,7 +5,7 @@ public class Matryoshka {
     //TODO: Create required instance variables
 	String name;
 	java.awt.Color hairColor;
-	boolean hasBabuskha;
+	boolean hasBabuskha; //
 
 
 	/**
